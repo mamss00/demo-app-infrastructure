@@ -1,5 +1,6 @@
 #!/bin/bash
 # scripts/config.sh
+export VALID_ENVIRONMENTS=("dev" "staging" "prod")
 export PROJECT_NAME="demo-app"
 export REGION="eu-west-1"
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
