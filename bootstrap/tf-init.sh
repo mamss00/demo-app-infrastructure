@@ -12,7 +12,7 @@ source "$(dirname "$0")/config.sh"
 usage() {
   echo "Usage: $0 <environment> <component>"
   echo "Environments: dev, staging, prod"
-  echo "Components: networking, database, app"
+  echo "Components: networking, database, app, compute"
   exit 1
 }
 
@@ -20,7 +20,7 @@ usage() {
 
 ENV=$1
 COMPONENT=$2
-VALID_COMPONENTS=("networking" "database" "app")
+VALID_COMPONENTS=("networking" "database" "app" "compute")
 
 # Validation des entrées
 [[ ! " ${VALID_ENVIRONMENTS[@]} " =~ " ${ENV} " ]] && {

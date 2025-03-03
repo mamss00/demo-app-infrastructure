@@ -5,7 +5,7 @@ data "terraform_remote_state" "networking" {
   backend = "s3"
   config = {
     bucket = "demo-app-terraform-state-${data.aws_caller_identity.current.account_id}"
-    key    = "develop/networking/terraform.tfstate"
+    key    = "dev/networking/terraform.tfstate"
     region = "eu-west-1"
   }
 }
@@ -18,7 +18,7 @@ module "ecr" {
   source = "../../../modules/ecr"
 
   project_name = "demo-app"
-  environment  = "develop"
+  environment  = "dev"
 }
 
 # Module ECS pour déployer l'application
@@ -26,7 +26,7 @@ module "ecs" {
   source = "../../../modules/ecs"
 
   project_name        = "demo-app"
-  environment         = "develop"
+  environment         = "dev"
   
   # Connexion au réseau
   vpc_id              = data.terraform_remote_state.networking.outputs.vpc_id
