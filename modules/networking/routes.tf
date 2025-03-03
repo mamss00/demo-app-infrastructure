@@ -33,13 +33,13 @@ resource "aws_route_table" "private" {
   )
 }
 
-# Route to internet via NAT Gateway for private subnets
-resource "aws_route" "private_nat_gateway" {
+# Route to internet via NAT instances for private subnets
+resource "aws_route" "private_nat_instance" {
   count = length(aws_route_table.private)
 
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = var.single_nat_gateway ? aws_nat_gateway.this[0].id : aws_nat_gateway.this[count.index].id
+  instance_id            = var.single_nat_gateway ? aws_instance.nat[0].id : aws_instance.nat[count.index].id
 }
 
 # Route table associations for public subnets

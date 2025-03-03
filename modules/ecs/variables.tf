@@ -65,3 +65,22 @@ variable "desired_count" {
   type        = number
   default     = 2
 }
+
+# New variables for EC2 instances
+variable "min_instances" {
+  description = "Minimum number of EC2 instances in the ECS cluster"
+  type        = number
+  default     = 1
+}
+
+variable "max_instances" {
+  description = "Maximum number of EC2 instances in the ECS cluster"
+  type        = number
+  default     = 2
+}
+
+variable "desired_instances" {
+  description = "Desired number of EC2 instances in the ECS cluster"
+  type        = number
+  default     = 1
+}

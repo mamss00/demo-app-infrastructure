@@ -4,8 +4,9 @@
 # ECS Task Definition
 resource "aws_ecs_task_definition" "app" {
   family                   = "${var.project_name}-${var.environment}"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
+  # Changed from awsvpc (Fargate) to bridge (EC2)
+  network_mode             = "bridge"  
+  # CPU and memory constraints are optional for EC2 but recommended
   cpu                      = var.container_cpu
   memory                   = var.container_memory
   execution_role_arn       = aws_iam_role.task_execution_role.arn
@@ -20,7 +21,7 @@ resource "aws_ecs_task_definition" "app" {
       portMappings = [
         {
           containerPort = 80
-          hostPort      = 80
+          hostPort      = 0  # Dynamic port mapping for EC2
           protocol      = "tcp"
         }
       ]

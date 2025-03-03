@@ -9,14 +9,12 @@ resource "aws_ecs_service" "app" {
   desired_count                      = var.desired_count
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
-  launch_type                        = "FARGATE"
-  scheduling_strategy                = "REPLICA"
-  health_check_grace_period_seconds  = 60
+  # Using EC2 capacity provider instead of Fargate
 
-  network_configuration {
-    security_groups  = [var.ecs_security_group_id]
-    subnets          = var.private_subnet_ids
-    assign_public_ip = false
+  # Add capacity provider strategy
+  capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.this.name
+    weight            = 100
   }
 
   load_balancer {
