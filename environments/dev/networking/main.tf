@@ -4,7 +4,7 @@ module "vpc" {
   source = "../../../modules/networking"
 
   project_name        = "demo-app"
-  environment         = "develop"
+  environment         = "dev"
   vpc_cidr            = "10.0.0.0/16"
   availability_zones  = ["eu-west-1a", "eu-west-1b"]
   private_subnets     = ["10.0.1.0/24", "10.0.2.0/24"]

@@ -39,7 +39,7 @@ resource "aws_route" "private_nat_instance" {
 
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  instance_id            = var.single_nat_gateway ? aws_instance.nat[0].id : aws_instance.nat[count.index].id
+  network_interface_id   = var.single_nat_gateway ? aws_instance.nat[0].primary_network_interface_id : aws_instance.nat[count.index].primary_network_interface_id
 }
 
 # Route table associations for public subnets

@@ -22,8 +22,8 @@ output "public_subnet_ids" {
 }
 
 output "nat_gateway_ids" {
-  description = "List of IDs of NAT Gateways"
-  value       = aws_nat_gateway.this[*].id
+  description = "List of IDs of NAT instances"
+  value       = aws_instance.nat[*].id  # Changé de aws_nat_gateway.this à aws_instance.nat
 }
 
 output "internet_gateway_id" {

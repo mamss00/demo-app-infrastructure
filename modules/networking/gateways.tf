@@ -54,32 +54,6 @@ resource "aws_security_group" "nat_instance" {
   )
 }
 
-# IAM role for NAT instances
-resource "aws_iam_role" "nat_instance_role" {
-  name = "${var.project_name}-${var.environment}-nat-instance-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      }
-    ]
-  })
-
-  tags = local.common_tags
-}
-
-# IAM instance profile for NAT instances
-resource "aws_iam_instance_profile" "nat_instance" {
-  name = "${var.project_name}-${var.environment}-nat-instance-profile"
-  role = aws_iam_role.nat_instance_role.name
-}
-
 # NAT instances instead of NAT Gateways
 resource "aws_instance" "nat" {
   count = var.single_nat_gateway ? 1 : length(var.availability_zones)
@@ -89,7 +63,6 @@ resource "aws_instance" "nat" {
   subnet_id              = aws_subnet.public[count.index].id
   vpc_security_group_ids = [aws_security_group.nat_instance.id]
   source_dest_check      = false  # Required for NAT functionality
-  iam_instance_profile   = aws_iam_instance_profile.nat_instance.name
   
   user_data = <<-EOF
     #!/bin/bash
